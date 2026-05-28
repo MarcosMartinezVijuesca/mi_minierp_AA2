@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import CheckConstraint, Q
 from core.models import Cliente, Producto, EstadoPedido
-
+from decimal import Decimal
 
 class Pedido(models.Model):
     cliente = models.ForeignKey(
@@ -13,6 +13,19 @@ class Pedido(models.Model):
         on_delete=models.RESTRICT
     )
     fecha = models.DateField(auto_now_add=True)
+    base = models.DecimalField(max_digits=10, decimal_places=2, default=0)      # NUEVO
+    iva = models.DecimalField(max_digits=10, decimal_places=2, default=0)       # NUEVO
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)     # NUEVO
+
+    def calcular_totales(self):
+        base = sum(
+            linea.precio_unitario * linea.cantidad
+            for linea in self.lineas.all()
+        )
+        self.base = Decimal(base)
+        self.iva = self.base * Decimal('0.21')
+        self.total = self.base + self.iva
+        self.save()
 
     def __str__(self):
         return f"Pedido #{self.id} - {self.cliente}"

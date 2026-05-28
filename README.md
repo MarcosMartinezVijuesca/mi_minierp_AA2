@@ -95,3 +95,29 @@ Las entidades transaccionales registran operaciones del negocio que ocurren en e
 - `FK` = Clave Foránea (Foreign Key)
 - `UQ` = Restricción UNIQUE
 - `CHECK` = Restricción a nivel de base de datos
+
+
+---
+
+## Segunda Evaluación - Nuevas Funcionalidades
+
+### Fase 2.2 - KPI: Tasa de Conversión CRM
+
+La **Tasa de Conversión** mide el porcentaje de oportunidades que terminan
+en venta cerrada respecto al total de oportunidades registradas.
+
+**Fórmula:**
+Tasa de Conversión = (Oportunidades en etapa "CERRADA_GANADA" / Total de Oportunidades) x 100
+
+**Cómo se calcularía con el modelo:**
+```python
+from crm.models import Oportunidad
+
+total = Oportunidad.objects.count()
+ganadas = Oportunidad.objects.filter(etapa='CERRADA_GANADA').count()
+tasa_conversion = (ganadas / total * 100) if total > 0 else 0
+print(f"Tasa de conversión: {tasa_conversion:.2f}%")
+```
+
+**Ejemplo:** Si tenemos 10 oportunidades y 3 están en "Cerrada Ganada",
+la tasa de conversión es del 30%.

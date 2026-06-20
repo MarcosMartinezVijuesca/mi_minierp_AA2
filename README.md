@@ -47,20 +47,17 @@ Las entidades transaccionales registran operaciones del negocio que ocurren en e
 
 ```
 ┌─────────────────────┐         ┌──────────────────────┐
-│       CLIENTE        │         │     ESTADOPEDIDO     │
+│       CLIENTE       │         │     ESTADOPEDIDO     │
 │─────────────────────│         │──────────────────────│
 │ PK  id (auto)       │         │ PK  id (auto)        │
 │ UQ  nif             │         │ UQ  nombre (choices) │
-│     nombre          │         └──────────┬───────────┘
-│     email           │                    │ 1
-│     telefono        │                    │
-└──────────┬──────────┘                    │
-           │ 1                             │
+└──────────┬──────────┘         └──────────┬───────────┘
+           │ 1                             │ 1
            │                               │
            │ N                             │ N
            │                               │
 ┌──────────┴───────────────────────────────┴───────────┐
-│                        PEDIDO                         │
+│                        PEDIDO                        │
 │──────────────────────────────────────────────────────│
 │ PK  id (auto)                                        │
 │ FK  cliente_id  ──────────────────► CLIENTE(id)      │
@@ -71,7 +68,7 @@ Las entidades transaccionales registran operaciones del negocio que ocurren en e
                            │
                            │ N
 ┌──────────────────────────┴───────────────────────────┐
-│                      LINEAPEDIDO                      │
+│                      LINEAPEDIDO                     │
 │──────────────────────────────────────────────────────│
 │ PK  id (auto)                                        │
 │ FK  pedido_id   ──────────────────► PEDIDO(id)       │
@@ -79,9 +76,11 @@ Las entidades transaccionales registran operaciones del negocio que ocurren en e
 │     cantidad    (CHECK: > 0)                         │
 │     precio_unitario                                  │
 └──────────────────────────────────────────────────────┘
-
-┌─────────────────────┐
-│       PRODUCTO      │
+                           │ N
+                           │
+                           │ 1
+┌─────────────────────┐    │
+│       PRODUCTO      ├────┘
 │─────────────────────│
 │ PK  id (auto)       │
 │ UQ  sku             │

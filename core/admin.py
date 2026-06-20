@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Cliente, Producto, EstadoPedido
 from ventas.forms import ProductoForm, ClienteForm
 
-"""Formularios de validacion para el admin de Django. Se definen en core/forms.py 
+"""Formularios de validacion para el admin de Django. Se definen en ventas/forms.py 
 y se utilizan aquí para personalizar la validación de los modelos Producto y Cliente 
 en el panel de administración."""
 
